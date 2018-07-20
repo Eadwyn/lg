@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.legrand.ss.dao.VDPDao" >
+	<resultMap id="baseResultMap" type="com.legrand.ss.model.VDP" >
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<!-- <result column="sex" property="sex" javaType="com.neo.enums.UserSexEnum"/> -->
+		<result column="mac" property="mac" jdbcType="VARCHAR"/>
+		<result column="callNum" property="callNum" jdbcType="VARCHAR"/>
+		<result column="siteServerIP" property="siteServerIP" jdbcType="VARCHAR"/>
+		<result column="mcIP" property="mcIP" jdbcType="VARCHAR"/>
+		<result column="childMcIP" property="childMcIP" jdbcType="VARCHAR"/>
+		<result column="alarmDuration" property="alarmDuration" jdbcType="INTEGER"/>
+		<result column="sceneMode" property="sceneMode" jdbcType="INTEGER"/>
+		<result column="frimwareVersion" property="frimwareVersion" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="base_Column_List" >
+		id, mac, callNum, siteServerIP, mcIP, childMcIP, alarmDuration, sceneMode, frimwareVersion
+	</sql>
+
+<!-- 
+	<select id="getBetween" parameterType="java.util.Map" resultMap="baseResultMap">
+		SELECT 
+		id, CONVERT_TZ(ddate,'+00:00','+7:00') as ddate, openBid, highBid, lowBid, closeBid, openAsk, highAsk, lowAsk, closeAsk
+		FROM ${tableName} 
+		where date_format(CONVERT_TZ(ddate,'+00:00','+7:00'), '%Y-%m-%d') &gt;= #{beginDate} 
+				and date_format(CONVERT_TZ(ddate,'+00:00','+7:00'), '%Y-%m-%d') &lt;= #{endDate}
+		<choose>
+			<when test="true == isTheSameDay">
+				and date_format(CONVERT_TZ(ddate,'+00:00','+7:00'), '%H:%i:%s') &gt;= #{beginTime}
+				and date_format(CONVERT_TZ(ddate,'+00:00','+7:00'), '%H:%i:%s') &lt;= #{endTime}
+			</when>
+			<otherwise>
+				and 
+				(
+					(date_format(CONVERT_TZ(ddate,'+00:00','+7:00'), '%H:%i:%s') &gt;= #{beginTime}
+						and date_format(CONVERT_TZ(ddate,'+00:00','+7:00'), '%H:%i:%s') &lt;= '23:59:59')
+					 or
+					(date_format(CONVERT_TZ(ddate,'+00:00','+7:00'), '%H:%i:%s') &gt;= '00:00:00'
+						and date_format(CONVERT_TZ(ddate,'+00:00','+7:00'), '%H:%i:%s') &lt;= #{endTime})
+				)
+			</otherwise>
+		</choose>
+		order by CONVERT_TZ(ddate,'+00:00','+7:00') ASC
+	</select>
+ -->
+	<select id="getByCallNum" parameterType="java.lang.String" resultMap="baseResultMap">
+		SELECT 
+		<include refid="base_Column_List" />
+		FROM t_VDP
+		where callNum= #{callNum}
+	</select>
+
+</mapper>

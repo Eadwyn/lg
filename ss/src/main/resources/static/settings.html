@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title></title>
+
+    <link rel="stylesheet" href="./resources/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./resources/common/css/common.css">
+    <link rel="stylesheet" href="./resources/theme/default/css/theme.css">
+    <style>
+		.loading {
+			width: 160px;
+			height: 56px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			line-height: 56px;
+			color: #fff;
+			padding-left: 60px;
+			font-size: 15px;
+			background: #000 url(./resources/common/images/loading.gif) no-repeat 10px 50%;
+			opacity: 0.7;
+			z-index: 9999;
+			-moz-border-radius: 20px;
+			-webkit-border-radius: 20px;
+			border-radius: 20px;
+			filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+		}
+	</style>
+</head>
+
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #b8372c;">
+        <a class="navbar-brand" href="https://www.utrons.com">Legrand
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Default Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="vdp.html">VDP</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="settings.html">Settings<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sos.html">SOS Log</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="smoke.html">Smoke Log</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="unlock.html">Unlock Log</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+		<form class="needs-validation" novalidate>
+			<div class="form-group row">
+				<label for="callNum" class="col-sm-2 col-form-label">
+					Call Number
+				</label>
+				<div class="col-sm-10">
+					<select id="callNum" class="custom-select" required></select>
+					<div class="invalid-feedback">
+						please select a Call Number
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="mac" class="col-sm-2 col-form-label">
+					MAC
+				</label>
+				<div class="col-sm-10">
+					<input id="mac" type="text" class="form-control" placeholder="mac"  readonly="readonly">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="ip" class="col-sm-2 col-form-label">
+					VDP ip
+				</label>
+				<div class="col-sm-10" >
+					<input id="ip" type="text" class="form-control" placeholder="VDP ip"  readonly="readonly">
+					<div class="invalid-feedback">
+						please input the VDP ip
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="siteServerIp" class="col-sm-2 col-form-label">
+					Site Server Ip
+				</label>
+				<div class="col-sm-10">
+					<select id="siteServerIp" class="custom-select" required>
+					</select>
+					<div class="invalid-feedback">
+						please select a Ip
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="mcIP" class="col-sm-2 col-form-label">
+					MC Ip
+				</label>
+				<div class="col-sm-10" >
+					<input id="mcIP" type="text" class="form-control" placeholder="MC Ip"  required>
+					<div class="invalid-feedback">
+						please input the MC Ip
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="childMcIP" class="col-sm-2 col-form-label">
+					Child MC Ip
+				</label>
+				<div class="col-sm-10" >
+					<input id="childMcIP" type="text" class="form-control" placeholder="Child MC Ip"  required>
+					<div class="invalid-feedback">
+						please input the Child MC Ip
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="alarmDuration" class="col-sm-2 col-form-label">
+					Alarm Duration
+				</label>
+				<div class="col-sm-10 input-group">
+					<input id="alarmDuration" type="number" class="form-control" placeholder="Alarm Duration" required>
+					<div class="input-group-append">
+						<div class="input-group-text">s</div>
+					</div>
+					<div class="invalid-feedback">
+						please input the Alarm Duration
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="sceneMode" class="col-sm-2 col-form-label">
+					Scene Mode
+				</label>
+				<div class="col-sm-10" >
+					<select id="sceneMode" class="custom-select" required>
+						<option value="">
+							please select...
+						</option>
+						<option value="0">
+							At Home
+						</option>
+						<option value="1">
+							Leave Home
+						</option>
+					</select>
+					<div class="invalid-feedback">
+						please select Scene Mode
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="frimwareVersion" class="col-sm-2 col-form-label">
+					Frimware Version
+				</label>
+				<div class="col-sm-10" >
+					<input id="frimwareVersion" type="text" class="form-control" placeholder="Frimware Version"  readonly="readonly">
+					<div class="invalid-feedback">
+						please input the frimwareVersion
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-12">
+					<button id="btnRead" type="button" class="btn btn-success">Read</button>
+					<button id="btnWrite" type="submit" class="btn btn-success">Write</button>
+				</div>
+			</div>
+		</form>
+		<div id="msgInfo">
+		</div>
+		<div class="modal fade" id="loadingContainer" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div id="loading" class="loading">Loading...</div>
+			</div>
+		</div>
+    </div>
+
+    <script type="text/javascript" src="./resources/modules/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="./resources/modules/popperjs/popper.min.js"></script>
+    <script type="text/javascript" src="./resources/modules/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./resources/common/js/common.js"></script>
+
+    <script type="text/javascript">
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                	form.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        if (form.checkValidity() === false) {
+                        } else {
+                        	writeSetting();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+	</script>
+	<script type="text/javascript">
+		$(function() {
+			loadVdps();
+			initIps();
+			$("#btnRead").bind("click", readSetting);
+			$("#callNum").bind("change", getVdpDetail);
+		});
+	</script>
+	<script type="text/javascript">
+		function readSetting() {
+			if ($("#callNum").val().trim() == '') {
+				$("#callNum").next().css("display", "block");
+				return;
+			}
+			$('#loadingContainer').modal('show');
+			$("#msgInfo").html("");
+			var callNum = $("#callNum").val();
+
+			var url = `configs/${callNum}/read`;
+            var type = "GET";
+            $.ajax({
+                url: url,
+                async: true,
+                type: type,
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                success: function(resp, textStatus, jqXHR) {
+                    if (resp["success"]) {
+                    	var data = resp["data"];
+            			$("#callNum").val(data["callNum"]);
+            			$("#ip").val(data["ip"]);
+                        $("#siteServerIp").val(data["siteServerIP"]);
+                        $("#mcIP").val(data["mcIP"]);
+                        $("#childMcIP").val(data["childMcIP"]);
+                        $("#alarmDuration").val(data["alarmDuration"]);
+                        $("#sceneMode").val(data["sceneMode"]);
+                        $("#frimwareVersion").val(data["frimwareVersion"]);
+            			$("#msgInfo").html('<h1 style="color: green;">Success</h1?');
+                    } else {
+            			$("#msgInfo").html('<h1 style="color: red;">Failed: ' + resp["message"] + '</h1?');
+                    }
+        			$('#loadingContainer').modal('hide');                 
+                },
+                beforeSend: function(jqXHR, settings) {
+                    return true;
+                },
+                complete: function(jqXHR, textStatus) {
+                    console.log("complete【textStatus=" + textStatus + "】");
+                }
+            });
+		}
+		
+		function writeSetting() {
+			$('#loadingContainer').modal('show');
+			$("#msgInfo").html("");
+			var callNum = $("#callNum").val();
+            var siteServerIp = $("#siteServerIp").val();
+            var mcIP = $("#mcIP").val();
+            var childMcIP = $("#childMcIP").val();
+            var alarmDuration = $("#alarmDuration").val();
+            var sceneMode = $("#sceneMode").val();
+
+			var url = `configs/${callNum}?siteServerIp=${siteServerIp}&mcIP=${mcIP}&childMcIP=${childMcIP}&alarmDuration=${alarmDuration}&sceneMode=${sceneMode}`;
+            var type = "GET";
+            $.ajax({
+                url: url,
+                async: true,
+                type: type,
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                success: function(resp, textStatus, jqXHR) {
+                    if (resp["success"]) {
+            			$("#msgInfo").html('<h1 style="color: green;">Success</h1?');
+                    } else {
+            			$("#msgInfo").html('<h1 style="color: red;">Failed: ' + resp["message"] + '</h1?');
+                    }
+        			$('#loadingContainer').modal('hide');   
+                },
+                beforeSend: function(jqXHR, settings) {
+                    return true;
+                },
+                complete: function(jqXHR, textStatus) {
+                    console.log("complete【textStatus=" + textStatus + "】");
+                }
+            });
+		}
+	</script>
+	<script type="text/javascript">
+		function loadVdps() {
+			var url = `vdps`;
+			$.ajax({
+	            url: url,
+	            async: true,
+	            type: "GET",
+	            contentType: "application/json; charset=UTF-8",
+	            dataType: "json",
+	            success: function(resp, textStatus, jqXHR) {
+	                if (resp["success"]) {
+	                	var datas = resp["data"];
+                        var ele = $("#callNum");
+                        ele.html("");
+                        ele.append(`<option value=''>please select...</option>`);
+                        var callNum = "";
+                        for (var i = 0, len = datas.length; i < len; i++) {
+                        	callNum = datas[i]["callNum"];
+                            ele.append(`<option value='${callNum}'>${callNum}</option>`);
+                        }
+	                }
+	            },
+	            beforeSend: function(jqXHR, settings) {
+	                return true;
+	            },
+	            complete: function(jqXHR, textStatus) {
+	                console.log("complete【textStatus=" + textStatus + "】");
+	            }
+	        });
+		}
+		
+		function getVdpDetail() {
+			var callNum = $("#callNum").val();
+			if (callNum == "") {
+				return;				
+			}
+			var url = `vdps/${callNum}/detail`;
+			$.ajax({
+	            url: url,
+	            async: true,
+	            type: "GET",
+	            contentType: "application/json; charset=UTF-8",
+	            dataType: "json",
+	            success: function(resp, textStatus, jqXHR) {
+	                if (resp["success"]) {
+	                	var data = resp["data"];
+            			$("#callNum").val(data["callNum"]);
+            			$("#ip").val(data["ip"]);
+            			$("#mac").val(data["mac"]);
+                        $("#siteServerIp").val(data["siteServerIP"]);
+                        $("#mcIP").val(data["mcIP"]);
+                        $("#childMcIP").val(data["childMcIP"]);
+                        $("#alarmDuration").val(data["alarmDuration"]);
+                        $("#sceneMode").val(data["sceneMode"]);
+                        $("#frimwareVersion").val(data["frimwareVersion"]);
+	                } else {
+            			$("#msgInfo").html('<h1 style="color: red;">Failed: ' + resp["message"] + '</h1?');
+	                }
+	            },
+	            beforeSend: function(jqXHR, settings) {
+	                return true;
+	            },
+	            complete: function(jqXHR, textStatus) {
+	                console.log("complete【textStatus=" + textStatus + "】");
+	            }
+	        });
+		}
+		
+		function initIps() {
+			var url = `localhost/ips`;
+			$.ajax({
+                url: url,
+                async: true,
+                type: "GET",
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                success: function(resp, textStatus, jqXHR) {
+                    if (resp["success"]) {
+                        var datas = resp["data"];
+                        var ele = $("#siteServerIp");
+                        ele.html("");
+                        ele.append(`<option value=''>please select...</option>`);
+                        var ip = "";
+                        for (var i = 0, len = datas.length; i < len; i++) {
+                        	ip = datas[i];
+                            ele.append(`<option value='${ip}'>${ip}</option>`);
+                        }
+                    }
+                },
+                beforeSend: function(jqXHR, settings) {
+                    return true;
+                },
+                complete: function(jqXHR, textStatus) {
+                    console.log("complete【textStatus=" + textStatus + "】");
+                }
+            });
+		}
+	</script>
+	
+</body>
+
+</html>

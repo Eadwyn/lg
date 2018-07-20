@@ -1,0 +1,49 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+//apply plugin: 'eclipse-wtp'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+
+group = 'com.legrand'
+version = '1.0.0'
+sourceCompatibility = 1.8
+
+repositories {
+    maven{
+    	url 'http://maven.aliyun.com/nexus/content/groups/public'
+    }
+    maven{
+    	url 'https://repo.eclipse.org/content/repositories/paho-releases/'
+    }
+	mavenCentral()
+}
+
+configurations {
+	providedRuntime
+}
+
+dependencies {
+	compile 'io.netty:netty-all:4.1.15.Final'
+	compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.1'
+	compile 'com.google.zxing:core:3.3.3'
+	compile 'com.google.zxing:javase:3.3.3'
+
+	//compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2')
+	//runtime('mysql:mysql-connector-java')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}

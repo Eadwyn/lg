@@ -1,0 +1,17 @@
+server:
+  port: 8888
+#logging:
+#  level:
+#    org.springframework.web: trace
+#    org.apache: trace
+#spring:
+#    datasource:
+#        driverClassName: com.mysql.jdbc.Driver
+#        url: jdbc:mysql://localhost:3306/newip_demo?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useSSL=true
+#        username: root
+#        password: root
+
+#mybatis:
+#    configLocation: classpath:mybatis/mybatis-config.xml
+#    mapperLocations: classpath:mybatis/mapper/**/*.xml
+#    typeAliasesPackage: com.legrand.**.model

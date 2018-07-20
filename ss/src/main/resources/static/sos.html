@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title></title>
+
+    <link rel="stylesheet" href="./resources/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./resources/common/css/common.css">
+    <link rel="stylesheet" href="./resources/theme/default/css/theme.css">
+</head>
+
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #b8372c;">
+        <a class="navbar-brand" href="https://www.utrons.com">Legrand
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Default Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="vdp.html">VDP</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="settings.html">Settings</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="sos.html">SOS Log<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="smoke.html">Smoke Log</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="unlock.html">Unlock Log</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+		<table id="dataTable" class="table">
+			<thead>
+				<tr>
+					<th scope="col">Call Number</th>
+					<th scope="col">Time</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+
+    <script type="text/javascript" src="./resources/modules/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="./resources/modules/popperjs/popper.min.js"></script>
+    <script type="text/javascript" src="./resources/modules/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./resources/common/js/common.js"></script>
+
+	<script type="text/javascript">
+		$(function() {
+			loadDatas();
+			setInterval(function() {
+				loadDatas();
+			}, 3000);
+		});
+	</script>
+	<script type="text/javascript">
+		function loadDatas() {
+			var url = `alarms/soses`;
+			$.ajax({
+                url: url,
+                async: true,
+                type: "GET",
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                success: function(resp, textStatus, jqXHR) {
+                    if (resp["success"]) {
+                        var datas = resp["data"];
+                        var callNum;
+                        var time;
+                        var dataTable = $("#dataTable tbody");
+                        dataTable.html("");
+                        for (var i = 0, len = datas.length; i < len; i++) {
+                        	callNum = datas[i]["callNum"];
+                        	time = datas[i]["time"];
+                        	dataTable.append(`<tr><td>${callNum}</td><td>${time}</td></tr>`);
+                        }
+                    }
+                },
+                beforeSend: function(jqXHR, settings) {
+                    return true;
+                },
+                complete: function(jqXHR, textStatus) {
+                    console.log("complete【textStatus=" + textStatus + "】");
+                }
+            });
+		}
+	</script>
+	
+</body>
+
+</html>
