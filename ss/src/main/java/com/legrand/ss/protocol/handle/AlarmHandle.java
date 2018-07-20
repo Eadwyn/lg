@@ -15,8 +15,10 @@ import com.legrand.ss.protocol.model.MessageData;
 import com.legrand.ss.protocol.model.SubType;
 import com.legrand.ss.protocol.model.Type;
 import com.legrand.ss.protocol.model.alarm.SmokeAck;
+import com.legrand.ss.protocol.model.alarm.SmokeAckData;
 import com.legrand.ss.protocol.model.alarm.SmokeData;
 import com.legrand.ss.protocol.model.alarm.SosAck;
+import com.legrand.ss.protocol.model.alarm.SosAckData;
 import com.legrand.ss.protocol.model.alarm.SosData;
 import com.legrand.ss.util.JSONUtil;
 
@@ -52,8 +54,10 @@ public class AlarmHandle implements MessageHandle {
 	}
 
 	private boolean smokeHandle(MessageData message) {
+		String callNum = null;
 		try {
 			SmokeData data = JSONUtil.encode(message.getData(), SmokeData.class);
+			callNum = data.getCallNum();
 			SmokeAlarm smoke = new SmokeAlarm();
 			smoke.setAreaNum(data.getAreaNum());
 			smoke.setCallNum(data.getCallNum());
@@ -61,27 +65,33 @@ public class AlarmHandle implements MessageHandle {
 			GlobalContext.addSmoke(smoke);
 
 			SmokeAck ack = new SmokeAck(true);
+			ack.setData(new SmokeAckData(callNum));
 			return CommService.sendAck(ack);
 		} catch (Exception e) {
 			logger.error("error", e);
 			SmokeAck ack = new SmokeAck(false, "invalid frame");
+			ack.setData(new SmokeAckData(callNum));
 			return CommService.sendAck(ack);
 		}
 	}
 
 	private boolean sosHandle(MessageData message) {
+		String callNum = null;
 		try {
 			SosData data = JSONUtil.encode(message.getData(), SosData.class);
+			callNum = data.getCallNum();
 			SosAlarm sos = new SosAlarm();
 			sos.setCallNum(data.getCallNum());
 			sos.setTime(sdf.parse(data.getTime()));
 			GlobalContext.addSos(sos);
 
 			SosAck ack = new SosAck(true);
+			ack.setData(new SosAckData(callNum));
 			return CommService.sendAck(ack);
 		} catch (Exception e) {
 			logger.error("error", e);
 			SosAck ack = new SosAck(false, "invalid frame");
+			ack.setData(new SosAckData(callNum));
 			return CommService.sendAck(ack);
 		}
 	}

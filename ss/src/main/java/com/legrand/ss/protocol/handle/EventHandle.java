@@ -14,6 +14,7 @@ import com.legrand.ss.protocol.model.MessageData;
 import com.legrand.ss.protocol.model.SubType;
 import com.legrand.ss.protocol.model.Type;
 import com.legrand.ss.protocol.model.event.UnlockAck;
+import com.legrand.ss.protocol.model.event.UnlockAckData;
 import com.legrand.ss.protocol.model.event.UnlockData;
 import com.legrand.ss.util.JSONUtil;
 
@@ -47,8 +48,10 @@ public class EventHandle implements MessageHandle {
 	}
 
 	private boolean unlockHandle(MessageData message) {
+		String callNum = null;
 		try {
 			UnlockData data = JSONUtil.encode(message.getData(), UnlockData.class);
+			callNum = data.getCallNum();
 			Unlock unlock = new Unlock();
 			unlock.setCallNum(data.getCallNum());
 			unlock.setType(data.getType());
@@ -56,10 +59,12 @@ public class EventHandle implements MessageHandle {
 			GlobalContext.addUnlock(unlock);
 			
 			UnlockAck ack = new UnlockAck(true);
+			ack.setData(new UnlockAckData(callNum));
 			return CommService.sendAck(ack);
 		} catch (Exception e) {
 			logger.error("error", e);
 			UnlockAck ack = new UnlockAck(false, "invalid frame");
+			ack.setData(new UnlockAckData(callNum));
 			return CommService.sendAck(ack);
 		}
 	}
