@@ -1,5 +1,9 @@
-/ss/bin
-/ss/build
-/ss/gradle
-/ss/.gradle
-/ss/.settings
+*/bin
+*/build
+*/gradle
+*/.gradle
+*/.settings
+*/.classpath
+*/.project
+*/gradlew
+*/gradlew.bat
