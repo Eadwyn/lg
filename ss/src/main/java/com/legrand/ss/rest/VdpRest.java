@@ -66,12 +66,14 @@ public class VdpRest {
 			@RequestParam String mcIP, @RequestParam String childMcIP, 
 			@RequestParam int alarmDuration, @RequestParam int sceneMode)
 			throws JsonProcessingException {
-		if (GlobalContext.addVDPinfo(mac, callNum, siteServerIp, mcIP, childMcIP, alarmDuration, sceneMode)) {
+		
+		String check = GlobalContext.addVDPinfo(mac, callNum, siteServerIp, mcIP, childMcIP, alarmDuration, sceneMode);
+		if (null == check) {
 			Response resp = new Response(true);
 			return jsonMapper.writeValueAsString(resp);
 		}
 		
-		Response resp = new Response(false, "Call Number or MAC already exists, but not match with the Site server's");
+		Response resp = new Response(false, check);
 		return jsonMapper.writeValueAsString(resp);
 	}
 

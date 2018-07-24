@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.legrand.ss.model.Response;
 import com.legrand.ss.model.VDP;
+import com.legrand.ss.protocol.CommService;
 import com.legrand.ss.service.ConfigService;
 
 @RestController
@@ -26,7 +27,11 @@ public class ConfigRest {
 	public String write(@PathVariable String callNum, @RequestParam String siteServerIp, 
 			@RequestParam String mcIP, @RequestParam String childMcIP, @RequestParam int alarmDuration,
 			@RequestParam int sceneMode) throws JsonProcessingException {
-
+		if (!CommService.isActive(callNum)) {
+			Response resp = new Response(false, "VDP have not register to SITE SERVER");
+			return jsonMapper.writeValueAsString(resp);
+		}
+		
 		if (this.configService.write(callNum, siteServerIp, mcIP, childMcIP, alarmDuration, sceneMode)) {
 			Response resp = new Response(true);
 			return jsonMapper.writeValueAsString(resp);
@@ -37,7 +42,11 @@ public class ConfigRest {
 
 	@GetMapping(value = "/{callNum}/read")
 	public String read(@PathVariable String callNum) throws JsonProcessingException {
-
+		if (!CommService.isActive(callNum)) {
+			Response resp = new Response(false, "VDP have not register to SITE SERVER");
+			return jsonMapper.writeValueAsString(resp);
+		}
+		
 		VDP vdp = this.configService.read(callNum);
 		if (null == vdp) {
 			Response resp = new Response(false, "time out");

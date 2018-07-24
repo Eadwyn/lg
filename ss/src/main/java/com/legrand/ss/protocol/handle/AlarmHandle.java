@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.legrand.ss.context.GlobalContext;
 import com.legrand.ss.model.SmokeAlarm;
 import com.legrand.ss.model.SosAlarm;
+import com.legrand.ss.model.VDP;
 import com.legrand.ss.protocol.CommService;
 import com.legrand.ss.protocol.model.MessageData;
 import com.legrand.ss.protocol.model.SubType;
@@ -20,6 +21,8 @@ import com.legrand.ss.protocol.model.alarm.SmokeData;
 import com.legrand.ss.protocol.model.alarm.SosAck;
 import com.legrand.ss.protocol.model.alarm.SosAckData;
 import com.legrand.ss.protocol.model.alarm.SosData;
+import com.legrand.ss.protocol.model.config.SettingsRequestAck;
+import com.legrand.ss.protocol.model.config.SettingsRequestAckData;
 import com.legrand.ss.util.JSONUtil;
 
 public class AlarmHandle implements MessageHandle {
@@ -58,6 +61,21 @@ public class AlarmHandle implements MessageHandle {
 		try {
 			SmokeData data = JSONUtil.encode(message.getData(), SmokeData.class);
 			callNum = data.getCallNum();
+			
+
+			VDP vdp = GlobalContext.getVDP(data.getCallNum());
+			if (null == vdp) {
+				logger.warn("vdp not exists");
+				SmokeAck ack = new SmokeAck(false, "vdp not exists");
+				ack.setData(new SmokeAckData(callNum));
+				return CommService.sendAck(ack);
+			} else if (!vdp.isActive()) {
+				logger.warn("vdp not active");
+				SmokeAck ack = new SmokeAck(false, "vdp not active");
+				ack.setData(new SmokeAckData(callNum));
+				return CommService.sendAck(ack);
+			}			
+			
 			SmokeAlarm smoke = new SmokeAlarm();
 			smoke.setAreaNum(data.getAreaNum());
 			smoke.setCallNum(data.getCallNum());
@@ -80,6 +98,21 @@ public class AlarmHandle implements MessageHandle {
 		try {
 			SosData data = JSONUtil.encode(message.getData(), SosData.class);
 			callNum = data.getCallNum();
+			
+
+			VDP vdp = GlobalContext.getVDP(data.getCallNum());
+			if (null == vdp) {
+				logger.warn("vdp not exists");
+				SosAck ack = new SosAck(false, "vdp not exists");
+				ack.setData(new SosAckData(callNum));
+				return CommService.sendAck(ack);
+			} else if (!vdp.isActive()) {
+				logger.warn("vdp not active");
+				SosAck ack = new SosAck(false, "vdp not active");
+				ack.setData(new SosAckData(callNum));
+				return CommService.sendAck(ack);
+			}
+			
 			SosAlarm sos = new SosAlarm();
 			sos.setCallNum(data.getCallNum());
 			sos.setTime(sdf.parse(data.getTime()));

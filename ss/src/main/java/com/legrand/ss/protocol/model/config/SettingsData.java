@@ -9,8 +9,8 @@ public class SettingsData implements Serializable {
 	private String callNum;
 	private String mcIP;
 	private String childMcIP;
-	private int alarmDuration;
-	private int sceneMode;
+	private Integer alarmDuration;
+	private Integer sceneMode;
 
 	public String getSiteServerIP() {
 		return siteServerIP;
@@ -44,19 +44,19 @@ public class SettingsData implements Serializable {
 		this.childMcIP = childMcIP;
 	}
 
-	public int getAlarmDuration() {
+	public Integer getAlarmDuration() {
 		return alarmDuration;
 	}
 
-	public void setAlarmDuration(int alarmDuration) {
+	public void setAlarmDuration(Integer alarmDuration) {
 		this.alarmDuration = alarmDuration;
 	}
 
-	public int getSceneMode() {
+	public Integer getSceneMode() {
 		return sceneMode;
 	}
 
-	public void setSceneMode(int sceneMode) {
+	public void setSceneMode(Integer sceneMode) {
 		this.sceneMode = sceneMode;
 	}
 }

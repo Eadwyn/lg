@@ -7,7 +7,7 @@ public class SmokeData implements Serializable {
 	private static final long serialVersionUID = -6562047127264179190L;
 	private String callNum;
 	private String time;
-	private int areaNum;
+	private Integer areaNum;
 
 	public String getCallNum() {
 		return callNum;
@@ -25,11 +25,11 @@ public class SmokeData implements Serializable {
 		this.time = time;
 	}
 
-	public int getAreaNum() {
+	public Integer getAreaNum() {
 		return areaNum;
 	}
 
-	public void setAreaNum(int areaNum) {
+	public void setAreaNum(Integer areaNum) {
 		this.areaNum = areaNum;
 	}
 }

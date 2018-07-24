@@ -115,8 +115,8 @@ public class QRUtil {
 	}
 
 	public static void main(String[] args) {
-		QRUtil.encodeQrCode("8E:13:ED:4E:34:97", 160, 160, "d:/qrcode.png");
-		QRUtil.encodeQrCode("D6:57:6A:42:17:89", 160, 160, "d:/qrcode2.png");
-//		QRUtil.encodeBarCode("6923450657713", 160, 160, "d:/barcode.png");		
+//		QRUtil.encodeQrCode("8E:13:ED:4E:34:97", 160, 160, "d:/qrcode.png");
+//		QRUtil.encodeQrCode("D6:57:6A:42:17:89", 160, 160, "d:/qrcode2.png");
+		QRUtil.encodeQrCode("10:d0:7a:24:3d:88", 160, 160, "d:/10d07a243d88.png");		
 	}
 }

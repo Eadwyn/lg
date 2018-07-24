@@ -11,7 +11,7 @@ public class SmokeAlarm implements Serializable {
 	private String callNum;
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "zh", timezone = "GMT+8")
 	private Date time;
-	private int areaNum;
+	private Integer areaNum;
 	public String getCallNum() {
 		return callNum;
 	}
@@ -24,10 +24,10 @@ public class SmokeAlarm implements Serializable {
 	public void setTime(Date time) {
 		this.time = time;
 	}
-	public int getAreaNum() {
+	public Integer getAreaNum() {
 		return areaNum;
 	}
-	public void setAreaNum(int areaNum) {
+	public void setAreaNum(Integer areaNum) {
 		this.areaNum = areaNum;
 	}
 }

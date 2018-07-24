@@ -22,22 +22,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Default Settings</a>
+                    <a class="nav-link" href="index.html">GLOBAL SETTINGS</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="vdp.html">VDP<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="vdp.html">VDP SETTINGS<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="settings.html">Settings</a>
+                    <a class="nav-link" href="settings.html">READ/WRITE DEVICE</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="sos.html">SOS Log</a>
+                    <a class="nav-link" href="sos.html">SOS LOG</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="smoke.html">Smoke Log</a>
+                    <a class="nav-link" href="smoke.html">SMOKE LOG</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="unlock.html">Unlock Log</a>
+                    <a class="nav-link" href="unlock.html">UNLOCK LOG</a>
                 </li>
             </ul>
         </div>
@@ -46,12 +46,12 @@
 		<form class="needs-validation" onkeydown="if(event.keyCode==13){return false;}" novalidate>
 			<div class="form-group row">
 				<label for="callNum" class="col-sm-2 col-form-label">
-					Call Number
+					CALL NUMBER
 				</label>
 				<div class="col-sm-10">
 					<input id="callNum" type="text" class="form-control" placeholder="VDP ip"  required>
 					<div class="invalid-feedback">
-						please input the Call Number
+						please input the CALL NUMBER
 					</div>
 				</div>
 			</div>
@@ -60,15 +60,15 @@
 					MAC
 				</label>
 				<div class="col-sm-10">
-					<input id="mac" type="text" class="form-control" placeholder="mac"  required>
+					<input id="mac" type="text" class="form-control" placeholder="mac">
 					<div class="invalid-feedback">
-						please input mac
+						please input MAC
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="siteServerIp" class="col-sm-2 col-form-label">
-					Site Server Ip
+					SITE SERVER IP
 				</label>
 				<div class="col-sm-10 input-group">
 					<div class="input-group-prepend">
@@ -79,13 +79,13 @@
 					<select id="siteServerIp" class="custom-select" disabled="disabled" required>
 					</select>
 					<div class="invalid-feedback">
-						please select a Ip
+						please select a IP
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="mcIP" class="col-sm-2 col-form-label">
-					MC Ip
+					MC IP
 				</label>
 				<div class="col-sm-10 input-group">
 					<div class="input-group-prepend">
@@ -95,13 +95,13 @@
 					</div>
 					<input id="mcIP" type="text" class="form-control" placeholder="MC Ip" readonly="readonly"  required>
 					<div class="invalid-feedback">
-						please input the MC Ip
+						please input the MC IP
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="childMcIP" class="col-sm-2 col-form-label">
-					Child MC Ip
+					CHILD MC IP
 				</label>
 				<div class="col-sm-10 input-group">
 					<div class="input-group-prepend">
@@ -111,13 +111,13 @@
 					</div>
 					<input id="childMcIP" type="text" class="form-control" placeholder="Child MC Ip"  readonly="readonly" required>
 					<div class="invalid-feedback">
-						please input the Child MC Ip
+						please input the Child MC IP
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="alarmDuration" class="col-sm-2 col-form-label">
-					Alarm Duration
+					ALARM DURATION
 				</label>
 				<div class="col-sm-10 input-group input-group">
 					<div class="input-group-prepend">
@@ -130,13 +130,13 @@
 						<div class="input-group-text">s</div>
 					</div>
 					<div class="invalid-feedback">
-						please input the Alarm Duration
+						please input the ALARM DURATION
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="sceneMode" class="col-sm-2 col-form-label">
-					Scene Mode
+					SCENE MODE
 				</label>
 				<div class="col-sm-10 input-group">
 					<div class="input-group-prepend">
@@ -156,7 +156,7 @@
 						</option>
 					</select>
 					<div class="invalid-feedback">
-						please select Scene Mode
+						please select SCENE MODE
 					</div>
 				</div>
 			</div>
@@ -165,7 +165,7 @@
 					<button id="btnSave" type="submit" class="btn btn-success">ADD</button>
 				</div>
 				<div class="col-sm-2">
-					<button id="btnClear" type="button" class="btn btn-danger">Clear All Data</button>
+					<button id="btnClear" type="button" class="btn btn-danger">CLEAR ALL DATA</button>
 				</div>
 			</div>
 		</form>
@@ -174,7 +174,7 @@
 		<table id="vdpTable" class="table">
 			<thead>
 				<tr>
-					<th scope="col">Call Number</th>
+					<th scope="col">CALL NUMBER</th>
 					<th scope="col">MAC</th>
 				</tr>
 			</thead>
@@ -306,6 +306,9 @@
                         for (var i = 0, len = datas.length; i < len; i++) {
                         	callNum = datas[i]["callNum"];
                         	mac = datas[i]["mac"];
+                        	if (null == datas[i]["mac"]) {
+                        		mac = "";
+                        	}
                         	vdpTable.append(`<tr><td>${callNum}</td><td>${mac}</td></tr>`);
                         }
                     }

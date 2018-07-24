@@ -2,6 +2,8 @@ package com.legrand.ss.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class VDP implements Serializable {
 
 	private static final long serialVersionUID = 1644185958482133762L;
@@ -14,7 +16,8 @@ public class VDP implements Serializable {
 	private Integer alarmDuration;
 	private Integer sceneMode;
 	private String frimwareVersion;
-
+	@JsonIgnore
+	private boolean isActive = false;
 	
 
 	public String getIp() {
@@ -69,7 +72,7 @@ public class VDP implements Serializable {
 		return alarmDuration;
 	}
 
-	public void setAlarmDuration(int alarmDuration) {
+	public void setAlarmDuration(Integer alarmDuration) {
 		this.alarmDuration = alarmDuration;
 	}
 
@@ -77,7 +80,7 @@ public class VDP implements Serializable {
 		return sceneMode;
 	}
 
-	public void setSceneMode(int sceneMode) {
+	public void setSceneMode(Integer sceneMode) {
 		this.sceneMode = sceneMode;
 	}
 
@@ -87,6 +90,14 @@ public class VDP implements Serializable {
 
 	public void setFrimwareVersion(String frimwareVersion) {
 		this.frimwareVersion = frimwareVersion;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 }

@@ -103,31 +103,53 @@ public class GlobalContext {
 	public static String getCallNum(String mac) {
 		Map<String, String> map = new HashMap<>();
 		VDPS.forEach((callNum, vdp) -> {
-			if (vdp.getMac().equals(mac)) {
+			if (mac.equals(vdp.getMac())) {
 				map.put(mac, callNum);
 				return;
 			}
 		});
 		return map.get(mac);
 	}
+	
+	private static String checkVDPInfo(String callNum, String mac) {
+		if (null == callNum) {
+			return "Call Number required";
+		}
+		
+		VDP vdp = VDPS.get(callNum);
+		if (null != vdp && null != mac && null != vdp.getMac() &&!mac.equals(vdp.getMac())) {
+			return "Call Number already bind to anther MAC";
+		}
+		
+		return null;
+	}
 
-	public static boolean addVDPinfo(String mac, String callNum, String siteServerIp, String mcIP, String childMcIP, int alarmDuration, int sceneMode) {
-		String existsCallNum = getCallNum(mac);
-		if (null != existsCallNum && !existsCallNum.equals(callNum)) {
-			return false;
+	public static String addVDPinfo(String mac, String callNum, String siteServerIp, String mcIP, String childMcIP, int alarmDuration, int sceneMode) {
+		String check = checkVDPInfo(callNum, mac);
+		if (null != check) {
+			return check;
 		}
 
-		VDP existsVDP = VDPS.get(callNum);
-		if (null != existsVDP && !mac.equals(existsVDP.getMac())) {
-			return false;
+		VDP vdp = VDPS.get(callNum);
+		if (null == vdp) {
+			vdp = new VDP();
 		}
-
-		VDP vdp = new VDP();
-		vdp.setCallNum(callNum);
-		vdp.setMac(mac);
-		vdp.setSiteServerIP(siteServerIp);
-		vdp.setMcIP(mcIP);
-		vdp.setChildMcIP(childMcIP);
+		if (callNum.trim().length() > 0) {
+			vdp.setCallNum(callNum);
+		}
+		if (mac.trim().length() > 0) {
+			vdp.setMac(mac);
+		}
+		if (siteServerIp.trim().length() > 0) {
+			vdp.setSiteServerIP(siteServerIp);
+		}
+		if (mcIP.trim().length() > 0) {
+			vdp.setMcIP(mcIP);
+		}
+		if (childMcIP.trim().length() > 0) {
+			vdp.setChildMcIP(childMcIP);
+		}
+		vdp.setActive(false);
 		if (-1 != alarmDuration) {
 			vdp.setAlarmDuration(alarmDuration);
 		}
@@ -135,7 +157,75 @@ public class GlobalContext {
 			vdp.setSceneMode(sceneMode);
 		}
 		VDPS.put(callNum, vdp);
-		return true;
+		return null;
+	}
+
+	public static Map<String, Object> addVDPinfo(String mac, String callNum) {
+		Map<String, Object> map = new HashMap<>();
+		
+		if (null == mac) {
+			map.put("success", false);
+			map.put("message", "MAC required");
+			return map;
+		}
+
+		String existsCallNum = getCallNum(mac);
+		if (null == callNum) {
+			if (null == existsCallNum) {
+				map.put("success", false);
+				map.put("message", "Call Number not exists");
+				return map;
+			} else {
+				VDP vdp = getVDP(existsCallNum);
+				vdp.setActive(true);
+				map.put("success", true);
+				map.put("callNum", existsCallNum);
+				map.put("mac", mac);
+				return map;
+			}
+		} else {
+			if (null == existsCallNum) {
+				VDP existsVDP = getVDP(callNum);
+				if (null == existsVDP) {
+					VDP obj = new VDP();
+					obj.setCallNum(callNum);
+					obj.setMac(mac);
+					obj.setActive(true);
+					VDPS.put(callNum, obj);
+					map.put("success", true);
+					map.put("mac", mac);
+					map.put("callNum", callNum);
+					return map;
+				} else {
+					if (null == existsVDP.getMac() || mac.equals(existsVDP.getMac())) {
+						existsVDP.setCallNum(callNum);
+						existsVDP.setMac(mac);
+						existsVDP.setActive(true);
+						map.put("success", true);
+						map.put("mac", mac);
+						map.put("callNum", callNum);
+						return map;
+					} else {
+						map.put("success", false);
+						map.put("message", "Call Number already bind to another MAC");
+						return map;
+					}
+				}
+			} else {
+				if (existsCallNum.equals(callNum)) {
+					VDP vdp = getVDP(existsCallNum);
+					vdp.setActive(true);
+					map.put("success", true);
+					map.put("mac", mac);
+					map.put("callNum", callNum);
+					return map;
+				} else {
+					map.put("success", false);
+					map.put("message", "MAC already bind to another Call Number");
+					return map;
+				}
+			}
+		}
 	}
 
 	public static ConcurrentHashMap<String, VDP> getAllVdps() {

@@ -11,7 +11,7 @@ public class Unlock implements Serializable {
 	private String callNum;
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "zh", timezone = "GMT+8")
 	private Date time;
-	private int type;
+	private Integer type;
 	public String getCallNum() {
 		return callNum;
 	}
@@ -24,10 +24,10 @@ public class Unlock implements Serializable {
 	public void setTime(Date time) {
 		this.time = time;
 	}
-	public int getType() {
+	public Integer getType() {
 		return type;
 	}
-	public void setType(int type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 }

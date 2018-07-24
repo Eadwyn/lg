@@ -7,7 +7,7 @@ public class UnlockData implements Serializable {
 	private static final long serialVersionUID = 1386853664330847821L;
 	private String callNum;
 	private String time;
-	private int type;
+	private Integer type;
 
 	public String getCallNum() {
 		return callNum;
@@ -25,11 +25,11 @@ public class UnlockData implements Serializable {
 		this.time = time;
 	}
 
-	public int getType() {
+	public Integer getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 }

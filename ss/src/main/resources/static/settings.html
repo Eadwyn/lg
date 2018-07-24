@@ -42,22 +42,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Default Settings</a>
+                    <a class="nav-link" href="index.html">GLOBAL SETTINGS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="vdp.html">VDP</a>
+                    <a class="nav-link" href="vdp.html">VDP SETTINGS</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="settings.html">Settings<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="settings.html">READ/WRITE DEVICE<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="sos.html">SOS Log</a>
+                    <a class="nav-link" href="sos.html">SOS LOG</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="smoke.html">Smoke Log</a>
+                    <a class="nav-link" href="smoke.html">SMOKE LOG</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="unlock.html">Unlock Log</a>
+                    <a class="nav-link" href="unlock.html">UNLOCK LOG</a>
                 </li>
             </ul>
         </div>
@@ -66,12 +66,12 @@
 		<form class="needs-validation" novalidate>
 			<div class="form-group row">
 				<label for="callNum" class="col-sm-2 col-form-label">
-					Call Number
+					CALL NUMBER
 				</label>
 				<div class="col-sm-10">
 					<select id="callNum" class="custom-select" required></select>
 					<div class="invalid-feedback">
-						please select a Call Number
+						please select a CALL NUMBER
 					</div>
 				</div>
 			</div>
@@ -85,52 +85,52 @@
 			</div>
 			<div class="form-group row">
 				<label for="ip" class="col-sm-2 col-form-label">
-					VDP ip
+					VDP IP
 				</label>
 				<div class="col-sm-10" >
 					<input id="ip" type="text" class="form-control" placeholder="VDP ip"  readonly="readonly">
 					<div class="invalid-feedback">
-						please input the VDP ip
+						please input the VDP IP
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="siteServerIp" class="col-sm-2 col-form-label">
-					Site Server Ip
+					SITE SERVER IP
 				</label>
 				<div class="col-sm-10">
 					<select id="siteServerIp" class="custom-select" required>
 					</select>
 					<div class="invalid-feedback">
-						please select a Ip
+						please select a IP
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="mcIP" class="col-sm-2 col-form-label">
-					MC Ip
+					MC IP
 				</label>
 				<div class="col-sm-10" >
 					<input id="mcIP" type="text" class="form-control" placeholder="MC Ip"  required>
 					<div class="invalid-feedback">
-						please input the MC Ip
+						please input the MC IP
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="childMcIP" class="col-sm-2 col-form-label">
-					Child MC Ip
+					CHILD MC IP
 				</label>
 				<div class="col-sm-10" >
 					<input id="childMcIP" type="text" class="form-control" placeholder="Child MC Ip"  required>
 					<div class="invalid-feedback">
-						please input the Child MC Ip
+						please input the CHILD MC IP
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="alarmDuration" class="col-sm-2 col-form-label">
-					Alarm Duration
+					ALARM DURATION
 				</label>
 				<div class="col-sm-10 input-group">
 					<input id="alarmDuration" type="number" class="form-control" placeholder="Alarm Duration" required>
@@ -138,13 +138,13 @@
 						<div class="input-group-text">s</div>
 					</div>
 					<div class="invalid-feedback">
-						please input the Alarm Duration
+						please input the ALARM DURATION
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="sceneMode" class="col-sm-2 col-form-label">
-					Scene Mode
+					SCENE MODE
 				</label>
 				<div class="col-sm-10" >
 					<select id="sceneMode" class="custom-select" required>
@@ -159,25 +159,25 @@
 						</option>
 					</select>
 					<div class="invalid-feedback">
-						please select Scene Mode
+						please select SCENE MODE
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="frimwareVersion" class="col-sm-2 col-form-label">
-					Frimware Version
+					FRIMWARE VERSION
 				</label>
 				<div class="col-sm-10" >
 					<input id="frimwareVersion" type="text" class="form-control" placeholder="Frimware Version"  readonly="readonly">
 					<div class="invalid-feedback">
-						please input the frimwareVersion
+						please input the FRIMWARE VERSION
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-12">
-					<button id="btnRead" type="button" class="btn btn-success">Read</button>
-					<button id="btnWrite" type="submit" class="btn btn-success">Write</button>
+					<button id="btnRead" type="button" class="btn btn-success">READ</button>
+					<button id="btnWrite" type="submit" class="btn btn-success">WRITE</button>
 				</div>
 			</div>
 		</form>

@@ -1,5 +1,7 @@
 package com.legrand.ss.protocol.handle;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,49 +66,59 @@ public class ConfigHandle implements MessageHandle {
 		String mac = null;
 		VDPInfoAck ack = null;
 		try {
-			VDPInfo info = JSONUtil.encode(message.getJsonString(), VDPInfo.class);
-			if (null == info || null == info.getData()) {
-				ack = new VDPInfoAck(false, "invalid frame");
-				return CommService.sendAck(ack);
-			}
-			
-			VDPInfoData data = info.getData();
-			callNum = data.getCallNum();
-			mac = data.getMac();
-			if (null == mac) {
+			VDPInfoData data = checkVDPInfo(message);
+			if (null == data) {
 				ack = new VDPInfoAck(false, "invalid frame", new VDPInfoAckData(callNum, mac));
 				return CommService.sendAck(ack);
 			}
-
-			if (null != callNum) {
-				if (GlobalContext.addVDPinfo(mac, callNum, null, null, null, -1, -1)) {
-					ack = new VDPInfoAck(true, new VDPInfoAckData(callNum, mac));
-				} else {
-					ack = new VDPInfoAck(false, "Call Number or MAC already exists, but not match with the Site server's", new VDPInfoAckData(data.getCallNum(), mac));
-				}
+			
+			callNum = data.getCallNum();
+			mac = data.getMac();	
+			
+			Map<String, Object> map = GlobalContext.addVDPinfo(mac, callNum);
+			boolean success = (boolean)map.get("success");
+			
+			if (success) {
+				String cn = (String)map.get("callNum");
+				String ma = (String)map.get("mac");
+				ack = new VDPInfoAck(true, new VDPInfoAckData(cn, ma));
 			} else {
-				String existsCallNum = GlobalContext.getCallNum(mac);
-				if (null == existsCallNum) {
-					ack = new VDPInfoAck(false, "callNum not exists", new VDPInfoAckData(existsCallNum, mac));
-				} else {
-					ack = new VDPInfoAck(true, new VDPInfoAckData(existsCallNum, mac));
-				}
+				String msg = (String)map.get("message");
+				ack = new VDPInfoAck(false, msg, new VDPInfoAckData(callNum, mac));
 			}
 		} catch (Exception e) {
 			ack = new VDPInfoAck(false, "invalid frame", new VDPInfoAckData(callNum, mac));
+			logger.error("invalid frame", e);
 		}
 
 		return CommService.sendAck(ack);
 	}
+	
+	private VDPInfoData checkVDPInfo(MessageData message) {
+		try {
+			VDPInfo info = JSONUtil.encode(message.getJsonString(), VDPInfo.class);
+			VDPInfoData data = info.getData();
+			String mac = data.getMac();
+			return (null == mac) ? null : data;
+		} catch (Exception e) {
+			logger.error("invalid frame", e);
+			return null;
+		}
+	}
 
 	private boolean settingsAckHandle(MessageData message) {
-		SettingsAck data = JSONUtil.encode(message.getJsonString(), SettingsAck.class);
+		try {
+			SettingsAck data = JSONUtil.encode(message.getJsonString(), SettingsAck.class);
 
-		VDP vdp = GlobalContext.getVDP(data.getData().getCallNum());
-		if (null != vdp) {
-			CommService.addAck(data.getData().getCallNum(), message.getSubType(), data);
-		} else {
-			logger.warn("vdp not exists");
+			VDP vdp = GlobalContext.getVDP(data.getData().getCallNum());
+			if (null != vdp) {
+				CommService.addAck(data.getData().getCallNum(), message.getSubType(), data);
+			} else {
+				logger.warn("vdp not exists");
+			}
+		} catch (Exception e) {
+			logger.error("Error", e);
+			return false;
 		}
 		return true;
 	}
@@ -140,12 +152,17 @@ public class ConfigHandle implements MessageHandle {
 	}
 
 	private boolean settingsHandle(MessageData message) {
-		String callNum = "";
+		String callNum = null;
 		try {
 			SettingsData data = JSONUtil.encode(message.getData(), SettingsData.class);
 			callNum = data.getCallNum();
 			VDP vdp = GlobalContext.getVDP(data.getCallNum());
 			if (null != vdp) {
+				if (!vdp.isActive()) {
+					SettingsAck ack = new SettingsAck(false, "vdp not active");
+					ack.setData(new SettingsAckData(callNum));
+					return CommService.sendAck(ack);
+				}
 				vdp.setAlarmDuration(data.getAlarmDuration());
 				vdp.setChildMcIP(data.getChildMcIP());
 				vdp.setCallNum(data.getCallNum());
@@ -184,6 +201,13 @@ public class ConfigHandle implements MessageHandle {
 				ack.setData(adata);
 				return CommService.sendAck(ack);
 			} else {
+				if (!vdp.isActive()) {
+					SettingsRequestAck ack = new SettingsRequestAck(false, "vdp not active");
+					SettingsRequestAckData adata = new SettingsRequestAckData();
+					adata.setCallNum(data.getCallNum());
+					ack.setData(adata);
+					return CommService.sendAck(ack);
+				}
 				SettingsRequestAck ack = new SettingsRequestAck(true);
 				SettingsRequestAckData adata = new SettingsRequestAckData();
 

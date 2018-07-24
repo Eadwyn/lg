@@ -1,8 +1,10 @@
 package com.legrand.ss.protocol.model.alarm;
 
-public class SmokeAckData extends AlarmAckMessage {
+import java.io.Serializable;
 
-	private static final long serialVersionUID = 346671438393225019L;
+public class SmokeAckData implements Serializable {
+
+	private static final long serialVersionUID = -3842874669253263117L;
 	private String callNum;
 
 	public SmokeAckData() {

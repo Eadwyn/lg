@@ -9,10 +9,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.legrand.ss.context.GlobalContext;
 import com.legrand.ss.model.Unlock;
+import com.legrand.ss.model.VDP;
 import com.legrand.ss.protocol.CommService;
 import com.legrand.ss.protocol.model.MessageData;
 import com.legrand.ss.protocol.model.SubType;
 import com.legrand.ss.protocol.model.Type;
+import com.legrand.ss.protocol.model.alarm.SosAck;
+import com.legrand.ss.protocol.model.alarm.SosAckData;
 import com.legrand.ss.protocol.model.event.UnlockAck;
 import com.legrand.ss.protocol.model.event.UnlockAckData;
 import com.legrand.ss.protocol.model.event.UnlockData;
@@ -52,6 +55,20 @@ public class EventHandle implements MessageHandle {
 		try {
 			UnlockData data = JSONUtil.encode(message.getData(), UnlockData.class);
 			callNum = data.getCallNum();
+			
+			VDP vdp = GlobalContext.getVDP(data.getCallNum());
+			if (null == vdp) {
+				logger.warn("vdp not exists");
+				UnlockAck ack = new UnlockAck(false, "vdp not exists");
+				ack.setData(new UnlockAckData(callNum));
+				return CommService.sendAck(ack);
+			} else if (!vdp.isActive()) {
+				logger.warn("vdp not active");
+				UnlockAck ack = new UnlockAck(false, "vdp not active");
+				ack.setData(new UnlockAckData(callNum));
+				return CommService.sendAck(ack);
+			}
+			
 			Unlock unlock = new Unlock();
 			unlock.setCallNum(data.getCallNum());
 			unlock.setType(data.getType());

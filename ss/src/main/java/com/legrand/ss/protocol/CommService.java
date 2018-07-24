@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.legrand.ss.context.GlobalContext;
-import com.legrand.ss.mqtt.MQTTClient;
+import com.legrand.ss.model.VDP;
 import com.legrand.ss.protocol.model.Message;
 import com.legrand.ss.protocol.model.MessageAck;
 import com.legrand.ss.util.JSONUtil;
@@ -68,6 +68,14 @@ public class CommService {
 				acks.get(ackKey).addElement(ack);
 			}
 		}
+	}
+
+	public static boolean isActive(String callNum) {
+		VDP vdp = GlobalContext.getVDP(callNum);
+		if (null == vdp || !vdp.isActive()) {
+			return false;
+		}
+		return true;
 	}
 	
 	public static void clearAcks() {
