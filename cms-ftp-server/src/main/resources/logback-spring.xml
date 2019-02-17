@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="false" scan="true">
+    <springProperty scope="context" name="LOG_NAME" source="spring.application.name" defaultValue="log"/>
+    <springProperty scope="context" name="LOG_PATH" source="logging.path"/>
+    <property name="LOG_PATTERN" value="%n[%d{yyyy-MM-dd HH:mm:ss SSS}][%-5p][%t] - %logger%n%m%n" />
+
+    <!-- 同时基于时间和文件大小生成日志文件：每天生成一个文件，且每个文件小于100MB（压缩前），且60天内的日志，总日志大小不超过1GB（压缩后） -->
+    <appender name="TIME_AND_SIZE_BASE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${LOG_NAME}.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${LOG_NAME}-%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap><!-- 日志文件总占用空间大小必须同时满足maxHistory和totalSizeCap -->
+        </rollingPolicy>
+    </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <immediateFlush>true</immediateFlush>
+        </encoder>
+    </appender>
+
+    <root additivity="false" level="WARN">
+        <!--<appender-ref ref="TIME_AND_SIZE_BASE_FILE" />-->
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

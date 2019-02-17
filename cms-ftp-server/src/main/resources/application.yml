@@ -1,0 +1,27 @@
+server:
+  port: 9079
+
+spring:
+  application:
+    name: cms-ftp-server
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/
+
+logging:
+  path: d:/logs/registry-server
+  level:
+    com.legrand: WARN
+    com.legrand.ftpserver.config: DEBUG
+
+###############################################################################################
+# \u81EA\u5B9A\u4E49\u53C2\u6570
+###############################################################################################
+# \u4E0A\u4F20\u6587\u4EF6\u53C2\u6570
+ftp:
+  vsftpd: # APP\u7BA1\u7406
+    virtusers-config-dir: /etc/vsftpd/vconf # \u865A\u62DF\u7528\u6237\u914D\u7F6E\u6587\u4EF6\u5B58\u50A8\u8DEF\u5F84
+    virtusers-file-path: /etc/vsftpd/virtusers # \u865A\u62DF\u7528\u6237\u4FE1\u606F\u6587\u4EF6virtusers\u7684\u8DEF\u5F84
+    virtusers-db-file-path: /etc/vsftpd/virtusers.db # \u865A\u62DF\u7528\u6237\u6570\u636E\u5E93\u6587\u4EF6virtusers.db\u6587\u4EF6\u7684\u8DEF\u5F84
+    virtusers-home-dir: /home/legrandFtpAdmin # \u865A\u62DF\u7528\u6237\u4E0A\u4F20\u6587\u4EF6\u7684\u6839\u76EE\u5F55
